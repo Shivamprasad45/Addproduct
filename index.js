@@ -5,18 +5,21 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
-// Middleware to parse form data
+// Middleware to parse JSON
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// GET endpoint to serve HTML
+// Serve form.html on GET request
 app.get('/api/products', (req, res) => {
   res.sendFile(path.join(__dirname, 'VIEW', 'form.html'));
 });
 
-// POST endpoint to handle form submission (optional)
+// Handle POST request
 app.post('/api/products', (req, res) => {
   const { productName } = req.body;
-  res.send(`Product "${productName}" added successfully!`);
+  console.log('Product received:', productName);
+
+  res.json({ message: `Product "${productName}" added successfully!` });
 });
 
 // Start server
